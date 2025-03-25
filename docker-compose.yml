@@ -37,6 +37,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: 472-s-golden-pillow-backend-6510405369
     container_name: goldenpillow-backend
     restart: always
     ports:
