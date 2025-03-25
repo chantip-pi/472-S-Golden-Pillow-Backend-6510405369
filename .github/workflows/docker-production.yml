@@ -18,15 +18,18 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Set Docker image tag
+      run: echo "TAG=v1.${{ github.run_number }}" >> $GITHUB_ENV
+
     - name: Build Docker image with tags
-        run: |
-          docker build -t chantip/472-s-golden-pillow-backend-6510405369:latest \
-                 -t chantip/472-s-golden-pillow-backend-6510405369:${{ env.TAG }} .
+      run: |
+        docker build -t chantip/472-s-golden-pillow-backend-6510405369:latest \
+               -t chantip/472-s-golden-pillow-backend-6510405369:${{ env.TAG }} .
 
     - name: Push Docker images
-        run: |
-          docker push chantip/472-s-golden-pillow-backend-6510405369:latest
-          docker push chantip/472-s-golden-pillow-backend-6510405369:${{ env.TAG }}
+      run: |
+        docker push chantip/472-s-golden-pillow-backend-6510405369:latest
+        docker push chantip/472-s-golden-pillow-backend-6510405369:${{ env.TAG }}
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
@@ -34,6 +37,4 @@ jobs:
         tag_name: ${{ env.TAG }}
         name: Release ${{ env.TAG }}
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }
